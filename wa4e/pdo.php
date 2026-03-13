@@ -10,7 +10,7 @@
      * Clave del usuario
      */
     try{
-        $pdo = new PDO('mysql:host=localhost;port=3310;dbname=misc','fre','zap');
+        $pdo = new PDO('mysql:host=localhost;port=3310;dbname=misc','fred','zap');
         echo "Conexion correcta";
     }catch(PDOException $e){
         echo $e->getMessage() . "<br>";
