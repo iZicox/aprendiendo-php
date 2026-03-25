@@ -35,7 +35,7 @@
         <form method="post">
 
             <p>
-                Name:
+                Nombre:
                 <input type="text" name="name" size="40">
             </p>
             <p>
