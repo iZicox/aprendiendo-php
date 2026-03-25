@@ -1,0 +1,1 @@
+// pagina para eliminar la session y las cookies
