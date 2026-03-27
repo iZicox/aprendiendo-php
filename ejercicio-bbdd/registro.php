@@ -15,34 +15,68 @@
     // function conectarPDO($ip,$puerto,$dbname,$user,$pass):PDO
     $conexion = conectarPDO("localhost","3307","ejemplosphp","root","");
 
-    $identificador = isset($_POST["identificador"]) ? isset($_POST["identificador"]) : "";
-    $nombre = isset($_POST["nombre"]) ? isset($_POST["nombre"]) : "";
-    $apellidos = isset($_POST["apellidos"]) ? isset($_POST["apellidos"]) : "";
-    $contrasenna = isset($_POST["contrasenna"]) ? isset($_POST["contrasenna"]) : "";
+    // valida si existe el post
+    $identificador = isset($_POST["identificador"]) ? $_POST["identificador"] : "";
+    $nombre = isset($_POST["nombre"]) ? $_POST["nombre"] : "";
+    $apellidos = isset($_POST["apellidos"]) ? $_POST["apellidos"] : "";
+    $contrasenna = isset($_POST["contrasenna"]) ? $_POST["contrasenna"] : "";
 
-    if(
-        !empty($identificador)   &&
-        !empty($nombre)          &&
-        !empty($apellidos)       &&
-        !empty($contrasenna)){
+    // validar si todas las variables estan vacias
+    $datosVacios =
+                    empty($identificador)   &&
+                    empty($nombre)          &&
+                    empty($apellidos)       &&
+                    empty($contrasenna);
 
-        $plantillaRegistro = "insert into usuarios(identificador,nombre,apellidos,contrasenna) values(:identificador,:nombre,:apellidos,:contrasenna)";
+    // si no estan vacias entra a este if
+    if(!$datosVacios){
 
-        $insert = $conexion->prepate($plantillaRegistro);
-        $insert->execute(
+        // revisar que no exista un identificador igual
+        $plantillaIdentificador = "select 'T' from usuarios where identificador = :identificador";
+        $consultaIdentificador = $conexion->prepare($plantillaIdentificador);
+        $consultaIdentificador->execute(
             array(
-                ":identificador" => $_POST[""],
-                ":nombre" => $_POST[""],
-                ":apellidos" => $_POST[""],
-                ":contrasenna" => $_POST[""]
+                ":identificador" => $identificador
             )
         );
-        $html = <<<EOF
-            <body>
-                <h1>Usuario registrado.</h1>
-            </body>
-        EOF;
-    } else {
+        // fetch de la consulta para guardar el resultado en un array
+        $fila = $consultaIdentificador->fetch(PDO::FETCH_ASSOC);
+        // primero verificar si existe el array para que no de error al acceder a algun valor del mismo
+        // Si existe verificar que el valor dea "T" que significa que el usuario y existe
+        if( isset($fila["T"]) && $fila["T"] === "T"){
+            $html = <<<EOF
+                <body>
+                    <h1>Usuario ya existe.</h1>
+                    <a href="login.php">Login</a>
+                    <a href="registro.php">Atras</a>
+                </body>
+            EOF;
+        }else{ // si el ususario no existe proceder a insertarlo en la base de datos
+            // consulta del insert
+            $plantillaRegistro = "insert into usuarios(identificador,nombre,apellidos,contrasenna) values(:identificador,:nombre,:apellidos,:contrasenna)";
+
+            // creando la consulta y agregandole los datos del post
+            $insert = $conexion->prepare($plantillaRegistro);
+            $insert->execute(
+                array(
+                    ":identificador" => $identificador,
+                    ":nombre" => $nombre,
+                    ":apellidos" => $apellidos,
+                    ":contrasenna" => $contrasenna
+                )
+            );
+            // pagina a mostrar
+            $html = <<<EOF
+                <body>
+                    <h1>Usuario registrado.</h1>
+                    <a href="login.php">Login</a>
+                    <a href="registro.php">Atras</a>
+                </body>
+            EOF;
+
+        }
+
+    } else { // cuando no se halla enviado el post mostrar el formulario
         $html = <<<EOF
             <body>
                 <h1>Registrar usuario</h1>
@@ -70,8 +104,13 @@
     }
 
 
+
+
 ?>
 
-<?= echo $html ?>
+<?php
+echo $html;
+?>
+
 
 </html>
