@@ -2,9 +2,13 @@
 
 // pagina privada que si el usuario no esta logeado oculta el contenido privado y solo muestra el link al login
 // si el usuario esta logeado muestra el contenido privado
-
+session_start();
+if(isset($_SESSION["autenticado"]) && $_SESSION["autenticado"] == "T"){
+    $disable = "disable";
+}else{
+    $disable = "";
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,37 +71,40 @@
 <body>
     <section>
         <h1>Contenido privado</h1>
+        <a href="logout.php">Log out</a>
     </section>
     <section>
         <div class="img">
 
         </div>
         <div class="img">
-            
-        </div>
-        <div class="img">
-            
-        </div>
-        <div class="img">
-            
+
         </div>
         <div class="img">
 
         </div>
         <div class="img">
-            
+
         </div>
         <div class="img">
-            
+
         </div>
         <div class="img">
-            
+
+        </div>
+        <div class="img">
+
+        </div>
+        <div class="img">
+
         </div>
 
     </section>
-    <div class="block">
+
+    <div class="block <?= print_r($disable,true) ?>">
         <p>Usuario no autenticado</p>
         <a href="login.php">Click para iniciar sesion</a>
+        <a href="registro.php">Click para registrarse</a>
     </div>
 </body>
 </html>
