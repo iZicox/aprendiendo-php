@@ -1,9 +1,21 @@
-// pagina para eliminar la session y las cookies
 <?php
+// pagina para eliminar la session y las cookies
+require_once "varios.php";
 session_start();
-session_destroy();
-//unset($_SESSION["autenticado"]);
+$_SESSION = [];
+// limpiar la cookie de la BD
+if (isset($_COOKIE["recordar"])) {
+    $conexion = conectarPDO("localhost","3307","ejemplosphp","root","");
+    $consulta = "UPDATE usuarios SET codigocookie = NULL WHERE codigocookie = :cookie";
+    $prep = $conexion->prepare($consulta);
+    $prep->execute(
+        array(
+            ":cookie" => $_COOKIE["recordar"] ?? ""
+            )    
+        );
+}
 setcookie("recordar","",time()-(86400*30));
+session_destroy();
 
 
 ?>
@@ -15,8 +27,19 @@ setcookie("recordar","",time()-(86400*30));
     <title>Document</title>
 </head>
 <body>
-    <a href="index.php">Inicio</a>
-    <a href="login.php">Iniciar sesion</a>
-    <a href="registro.php">registrarse</a>
+    <ul>
+        <li>
+            <a href="index.php">Inicio</a>
+
+        </li>
+        <li>
+
+            <a href="login.php">Iniciar sesion</a>
+        </li>
+        <li>
+
+            <a href="registro.php">registrarse</a>
+        </li>
+    </ul>
 </body>
 </html>
