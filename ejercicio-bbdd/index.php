@@ -2,10 +2,25 @@
 
 // pagina privada que si el usuario no esta logeado oculta el contenido privado y solo muestra el link al login
 // si el usuario esta logeado muestra el contenido privado
+// inicio sesion
 session_start();
-if(isset($_SESSION["autenticado"]) && $_SESSION["autenticado"] == "T"){
+require_once "varios.php";
+// si la session esta vacia y existe una cookie
+if(empty($_SESSION["autenticado"])){
+    if(isset($_COOKIE["recordar"])){
+        // extraer el usuario con la cookie actual en la base de datos
+        $usuario = fetchUsuarioCookie($_COOKIE["recordar"] ?? "");
+        if(isset($usuario) && !empty($usuario)){
+            $_SESSION["autenticado"] = "T";
+            $disable = "disable";
+        }
+
+    }
+}
+// revisar si la session existe y si tiene el valor de "T" el usuario esta logueado
+if(!empty($_SESSION["autenticado"]) && $_SESSION["autenticado"] == "T"){
     $disable = "disable";
-}else{
+}else{ // usuario no logeado
     $disable = "";
 }
 ?>
@@ -101,7 +116,8 @@ if(isset($_SESSION["autenticado"]) && $_SESSION["autenticado"] == "T"){
 
     </section>
 
-    <div class="block <?= print_r($disable,true) ?>">
+    <!-- dependiendo si el usuario esta logeado o no se mostrara este div que bloquea la vista privada -->
+    <div class="block <?= $disable ?>">
         <p>Usuario no autenticado</p>
         <a href="login.php">Click para iniciar sesion</a>
         <a href="registro.php">Click para registrarse</a>
