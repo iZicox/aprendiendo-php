@@ -9,10 +9,9 @@
 <?php
 
     require_once "varios.php";
-
+    // inicio session
     session_start();
     $html = "";
-    // function conectarPDO($ip,$puerto,$dbname,$user,$pass):PDO
     $conexion = conectarPDO("localhost","3307","ejemplosphp","root","");
 
     // valida si existe el post
@@ -42,35 +41,23 @@
         // fetch de la consulta para guardar el resultado en un array
         $fila = $consultaIdentificador->fetch(PDO::FETCH_ASSOC);
         // primero verificar si existe el array para que no de error al acceder a algun valor del mismo
-        // Si existe verificar que el valor dea "T" que significa que el usuario y existe
+        // Si existe verificar que el valor sea "T" que significa que el usuario y existe
         if( isset($fila["T"]) && $fila["T"] === "T"){
             $html = <<<EOF
                 <body>
                     <h1>Usuario ya existe.</h1>
-                    <a href="login.php">Login</a>
-                    <a href="registro.php">Atras</a>
+                    <a href="login.php">Login</a> - 
+                    <a href="registro.php">Registrar</a>
                 </body>
             EOF;
         }else{ // si el ususario no existe proceder a insertarlo en la base de datos
-            // consulta del insert
-            $plantillaRegistro = "insert into usuarios(identificador,nombre,apellidos,contrasenna) values(:identificador,:nombre,:apellidos,:contrasenna)";
-
-            // creando la consulta y agregandole los datos del post
-            $insert = $conexion->prepare($plantillaRegistro);
-            $insert->execute(
-                array(
-                    ":identificador" => $identificador,
-                    ":nombre" => $nombre,
-                    ":apellidos" => $apellidos,
-                    ":contrasenna" => $contrasenna
-                )
-            );
+            insertUsuario($conexion,$identificador,$nombre,$apellidos,$contrasenna);
             // pagina a mostrar
             $html = <<<EOF
                 <body>
                     <h1>Usuario registrado.</h1>
-                    <a href="login.php">Login</a>
-                    <a href="registro.php">Atras</a>
+                    <a href="login.php">Login</a> - 
+                    <a href="registro.php">Registrar otro</a>
                 </body>
             EOF;
 
