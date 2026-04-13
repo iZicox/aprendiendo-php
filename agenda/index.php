@@ -15,14 +15,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        input,form{
+            display: inline-block;
+        }
+    </style>
 </head>
 <body>
 
     <h1>Agenda</h1>
-    <button>Listar categorias</button>
-    <button>Elminar categorias</button>
-    <button>Crear categorias</button>
-    <button>Actualizar categorias</button>
+    <form action="" method="post">
+        <input type="hidden" name="listarCategoria" value="1">
+        <input type="submit" value="Listar Categoria">
+    </form>
+    <form action="" method="post">
+        <input type="hidden" name="listarCategoria" value="1">
+        <input type="submit" value="Listar Categoria">
+    </form>
+    <form action="" method="post">
+        <input type="hidden" name="listarCategoria" value="1">
+        <input type="submit" value="Listar Categoria">
+    </form>
+    <form action="" method="post">
+        <input type="hidden" name="listarCategoria" value="1">
+        <input type="submit" value="Listar Categoria">
+    </form>
     <ul>
     <section>
         <?php 
