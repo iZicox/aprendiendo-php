@@ -26,7 +26,6 @@
         </body>
         </html>
         EOF;
-        echo "post eliminarCategoria: " . $_POST["eliminarCategoria"];
         echo $html;
         exit;
     } 

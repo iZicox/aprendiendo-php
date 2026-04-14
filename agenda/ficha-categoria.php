@@ -32,24 +32,29 @@
                                                             where p.categoria_id = ?
                                                             order by p.nombre",Array($idCategoria));
         }
+
         $tabla = "";
-        $tabla .= "<table border=\"1\">";
-        $tabla .= "<tr><th>nombre</th><th>telefono</th><th>categoria</th></tr>";
-        foreach($personasCategoria as $persona){
-            $tabla .= "<tr>";
-            $i = 0;
-            foreach($persona as $col){
-                if($i == 2 && $col == null){
-                    $tabla .= "<td>Sin categoria</td>";
-                }else{
-                    $tabla .= "<td>".$col."</td>";
+        if(empty($personasCategoria)){
+            $tabla .= "<h3>No hay contactos en esta categoria</h3>";
+        } else {
+            $tabla .= "<table border=\"1\">";
+            $tabla .= "<tr><th>nombre</th><th>telefono</th><th>categoria</th></tr>";
+            foreach($personasCategoria as $persona){
+                $tabla .= "<tr>";
+                $i = 0;
+                foreach($persona as $col){
+                    if($i == 2 && $col == null){
+                        $tabla .= "<td>Sin categoria</td>";
+                    }else{
+                        $tabla .= "<td>".$col."</td>";
+                    }
+                    $i++;
                 }
-                $i++;
+                $tabla .= "</tr>";
             }
-            $tabla .= "</tr>";
+            $tabla .= "</table>";
+            $tabla = !empty($tabla) ? $tabla : "";
         }
-        $tabla .= "</table>";
-        $tabla = !empty($tabla) ? $tabla : "";
     }
 ?>
 
@@ -73,6 +78,6 @@
         </select>
         <input type="submit" value="enviar">
     </form>
-    <?= $tabla ?>
+    <?= $tabla ?? "" ?>
 </body>
 </html>
