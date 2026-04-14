@@ -1,6 +1,6 @@
 <?php 
     require_once "varios.php";
-    $conexion = conextion("localhost","3307","root","","agenda");
+    $conexion = conectarPDO("localhost","3307","root","","agenda");
     
     if(isset($_POST["eliminar"]) && !empty($_POST["eliminar"])){
         eliminarContacto($conexion,$_POST["eliminar"]);
@@ -24,21 +24,19 @@
 <body>
 
     <h1>Agenda</h1>
-    <form action="" method="post">
+    <form action="listar-categoria.php" method="post">
         <input type="hidden" name="listarCategoria" value="1">
         <input type="submit" value="Listar Categoria">
     </form>
-    <form action="" method="post">
-        <input type="hidden" name="listarCategoria" value="1">
-        <input type="submit" value="Listar Categoria">
+    <form action="eliminar-categoria.php" method="post">
+        <input type="submit" value="Eliminar Categoria">
+    </form>
+    <form action="ficha-categoria.php" method="post">
+        <input type="submit" value="Ficha Categoria">
     </form>
     <form action="" method="post">
         <input type="hidden" name="listarCategoria" value="1">
-        <input type="submit" value="Listar Categoria">
-    </form>
-    <form action="" method="post">
-        <input type="hidden" name="listarCategoria" value="1">
-        <input type="submit" value="Listar Categoria">
+        <input type="submit" value="Guardar Categoria">
     </form>
     <ul>
     <section>
@@ -58,9 +56,17 @@
                             <input type="hidden" name="eliminar" value="$fila">
                             <input type="submit" value="eliminar">
                         </form>
+                        <form action="editar.php" method="post">
+                            <input type="hidden" name="editar" value="$fila">
+                            <input type="submit" value="editar">
+                        </form>
                         EOF;
                         echo $html;
                         echo "</td>";
+                    }elseif ($j == 2 && $fila == null ) {
+                        echo "<td>";
+                        echo "Sin categoria";
+                        echo "</td>"; 
                     }else{
                         echo "<td>";
                         echo $fila;
