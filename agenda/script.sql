@@ -1,6 +1,7 @@
 create table categorias (
     categoria_id VARchar(5) primary key,
-    categorianombre varchar(20)
+    categorianombre varchar(20),
+    descripcion varchar(100)
 );
 
 -- persona: ID (PK), nombre, apellidos, teléfono, categoría ID.
