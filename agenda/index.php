@@ -34,8 +34,7 @@
     <form action="ficha-categoria.php" method="post">
         <input type="submit" value="Ficha Categoria">
     </form>
-    <form action="" method="post">
-        <input type="hidden" name="listarCategoria" value="1">
+    <form action="guardar-categoria.php" method="post">
         <input type="submit" value="Guardar Categoria">
     </form>
     <ul>
