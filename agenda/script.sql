@@ -18,7 +18,6 @@ insert categorias values('T','Trabajo');
 insert categorias values('P','Personal');
 
 INSERT INTO personas (nombre, apellidos, telefono, categoria_id) VALUES
-<<<<<<< HEAD
 ('Juan', 'Pérez López', '600123456', 'T'),
 ('María', 'García Ruiz', '600234567', 'P'),
 ('Carlos', 'Martínez Soto', '600345678', 'F'),
@@ -38,8 +37,7 @@ INSERT INTO personas (nombre, apellidos, telefono, categoria_id) VALUES
 ('Raúl', 'Vázquez Prado', '601890123', 'P'),
 ('Sara', 'Guerrero Luna', '602012345', 'F'),
 ('Diego', 'Molina Bravo', '602123456', 'T'),
-('Lucía', 'Alonso Prado', '602234567', 'P');
-=======
+('Lucía', 'Alonso Prado', '602234567', 'P'),
 ('Luis', 'Martínez', '600123456', 'T'),
 ('Ana', 'Gómez', '611234567', 'P'),
 ('Carlos', 'Ruiz', '622345678', 'F'),
@@ -50,4 +48,3 @@ INSERT INTO personas (nombre, apellidos, telefono, categoria_id) VALUES
 ('Lucía', 'Castro', '677890123', 'P'),
 ('Sergio', 'Vega', '688901234', 'F'),
 ('Marta', 'Domínguez', '699012345', 'T');
->>>>>>> bea85a4082542634bf20ad941a1af153fbd4efff
