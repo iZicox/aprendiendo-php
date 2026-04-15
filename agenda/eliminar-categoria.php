@@ -44,7 +44,7 @@
     }
 
     $html = "";
-    $categorias = selectDatos($conexion,"select categorianombre, categoria_id from categorias");
+    $categorias = selectDatos($conexion,"select nombre, categoria_id from categorias");
     $html .= "<table border=\"1\">";
     $html .= "<tr><th>Categorias</th><th>Eliminar</th></tr>";
     foreach($categorias as $cat){

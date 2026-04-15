@@ -3,17 +3,8 @@
     
     $conexion = conectarPDO("localhost","3307","root","","agenda");
     $html = "";
-    $categorias = selectDatos($conexion,"select categorianombre from categorias");
-    $html .= "<table border=\"1\">";
-    $html .= "<tr><th>Categorias</th></tr>";
-    foreach($categorias as $cat){
-        $html .= "<tr>";
-        foreach($cat as $dato){
-            $html .= "<td>".$dato."</td>";
-        }
-        $html .= "</tr>";
-    }
-    $html .= "</table>";
+    $categorias = selectDatos($conexion,"select nombre from categorias");
+    $html .= generarTabla(["categoria"],$categorias);
 
 ?>
 <!DOCTYPE html>

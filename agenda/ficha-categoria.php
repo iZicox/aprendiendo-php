@@ -1,83 +1,44 @@
 <?php
     require_once "varios.php";
+    // $ip,$port,$user,$pass,$database
     $conexion = conectarPDO("localhost","3307","root","","agenda");
-
-    $categorias = selectDatos($conexion,"select categorianombre, categoria_id from categorias");
-    $selectHtml = "";
+    $categorias = selectCategorias($conexion);
+    $options = "";
     foreach($categorias as $cat){
-        $selectHtml .= "<option value=\"".$cat["categoria_id"]."\">".$cat["categorianombre"]."</option>";
+        $options .= "<option value=\"".$cat["categoria_id"]."\">".$cat["nombre"]."</option>";
     }
-
-    $idCategoria = $_POST["categoria"] ?? "";
-    $personasCategoria = "";
-    if(isset($idCategoria) && !empty($idCategoria)){
-        if($idCategoria == "null"){
-            $personasCategoria = selectDatos($conexion,"select 
-                                                                p.nombre, 
-                                                                p.telefono, 
-                                                                c.categorianombre
-                                                            from personas p 
-                                                            left join categorias c 
-                                                                on c.categoria_id = p.categoria_id
-                                                            where p.categoria_id is null
-                                                            order by p.nombre");
-        }else{
-            $personasCategoria = selectPersonalizadop($conexion,"select 
-                                                                p.nombre, 
-                                                                p.telefono, 
-                                                                c.categorianombre
-                                                            from personas p 
-                                                            join categorias c 
-                                                                on c.categoria_id = p.categoria_id
-                                                            where p.categoria_id = ?
-                                                            order by p.nombre",Array($idCategoria));
-        }
-
-        $tabla = "";
-        if(empty($personasCategoria)){
-            $tabla .= "<h3>No hay contactos en esta categoria</h3>";
-        } else {
-            $tabla .= "<table border=\"1\">";
-            $tabla .= "<tr><th>nombre</th><th>telefono</th><th>categoria</th></tr>";
-            foreach($personasCategoria as $persona){
-                $tabla .= "<tr>";
-                $i = 0;
-                foreach($persona as $col){
-                    if($i == 2 && $col == null){
-                        $tabla .= "<td>Sin categoria</td>";
-                    }else{
-                        $tabla .= "<td>".$col."</td>";
-                    }
-                    $i++;
-                }
-                $tabla .= "</tr>";
-            }
-            $tabla .= "</table>";
-            $tabla = !empty($tabla) ? $tabla : "";
+    $tabla = "";
+    if(isset($_POST["categoria"]) && !empty($_POST["categoria"])){
+        $id = $_POST["categoria"];
+        $datos = selectPersonalizado($conexion,"select nombre, descripcion from categorias where categoria_id = ?",[$id]);
+        if(!empty($datos)){
+            
+            $tabla = generarTabla(["nombre","descripcion"],$datos);
         }
     }
+
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ficha Categoria</title>
+    <title>Document</title>
 </head>
 <body>
+    <h1>Ficha categoria</h1>
     <p>
         <a href="index.php">Regresar</a>
     </p>
     <form action="" method="post">
-        <label for="">Categoria: </label>
+        <label for="">Categoria</label>
         <select name="categoria" id="">
-            <option value="" selected>--Seleccionar--</option>
-            <option value="null">Sin categoria</option>
-            <?= $selectHtml ?>
+            <option value="" selected>--Selecciona--</option>
+            <?= $options ?>
         </select>
-        <input type="submit" value="enviar">
+        <input type="submit">
     </form>
-    <?= $tabla ?? "" ?>
+    <br>
+    <?= $tabla ?>
 </body>
 </html>

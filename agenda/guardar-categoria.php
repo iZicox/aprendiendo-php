@@ -1,12 +1,48 @@
 <?php
+    require_once "varios.php";
+    $conexion = conectarPDO("localhost","3307","root","","agenda");
     $id = $_POST["id"] ?? "";
     $nombreCategoria = $_POST["nombreCategoria"] ?? "";
+    $descripcionCategoria = $_POST["descripcionCategoria"] ?? "";
+    $html = "";
 
-    if(!empty($id) && !empty($nombreCategoria)){
-        
+    $identificadores = selectDatos($conexion, "select categoria_id from categorias");
+    $idValido = true;
+    foreach($identificadores as $fila){
+        if(in_array($id,$fila)){
+            $idValido = false;
+        }
     }
-?>
+    if($idValido){
+        $html .= "<h1>El identificador esta ocupado.</h1>";
+        $id = "";
+    }
+        
+    if(!empty($id) && !empty($nombreCategoria) && !empty($descripcionCategoria)){
+        insertCategoria($conexion,[$id,$nombreCategoria,$descripcionCategoria]);
+        $html .= "<h1>Categoria insertada</h1>";
+    } else{
+        $html .= <<<EOF
+        <form action="" method="post">
+            <label for="">Identificador: </label>
+            <input type="text" name="id">
+            <br><br>
+    
+            <label for="">Nombre categoria: </label>
+            <input type="text" name="nombreCategoria">
+            <br><br>
+    
+            <label for="">Descripcion categoria: </label>
+            <input type="text" name="descripcionCategoria">
+            <br><br>
+    
+            <input type="submit">
+        
+        </form>
+        EOF;
+    }
 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,17 +55,8 @@
     <p>
         <a href="index.php">Regresar</a>
     </p>
-    <form action="" method="post">
-        <label for="">Identificador: </label>
-        <input type="text" name="id">
-        <br><br>
 
-        <label for="">Nombre categoria: </label>
-        <input type="text" name="nombreCategoria">
-        <br><br>
+    <?= $html ?>
 
-        <input type="submit">
-    
-    </form>
 </body>
 </html>
