@@ -1,7 +1,7 @@
 create table categorias (
     categoria_id VARchar(5) primary key,
-    categorianombre varchar(20),
-    descripcion varchar(100)
+    nombre varchar(20) not null,
+    descripcion varchar(100) not null
 );
 
 -- persona: ID (PK), nombre, apellidos, teléfono, categoría ID.
@@ -14,9 +14,9 @@ create table personas (
     constraint fk_categoria FOREIGN KEY (categoria_id) REFERENCES categorias(categoria_id)
 );
 
-insert categorias values('F','Familiar');
-insert categorias values('T','Trabajo');
-insert categorias values('P','Personal');
+insert categorias values('F','Familiar','Contactos familiares');
+insert categorias values('T','Trabajo','Contactos del trabajo');
+insert categorias values('P','Personal','Contactos como amigos u otros');
 
 INSERT INTO personas (nombre, apellidos, telefono, categoria_id) VALUES
 ('Juan', 'Pérez López', '600123456', 'T'),
