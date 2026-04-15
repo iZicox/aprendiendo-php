@@ -1,20 +1,21 @@
 <?php
     require_once "varios.php";
     $conexion = conectarPDO("localhost","3307","root","","agenda");
-    $id = $_POST["id"] ?? "";
-    $nombreCategoria = $_POST["nombreCategoria"] ?? "";
-    $descripcionCategoria = $_POST["descripcionCategoria"] ?? "";
+    $id = isset($_POST["id"]) ? $_POST["id"] : "";
+    $nombreCategoria = isset($_POST["nombreCategoria"]) ? $_POST["nombreCategoria"] : "";
+    $descripcionCategoria = isset($_POST["descripcionCategoria"]) ? $_POST["descripcionCategoria"] : "";
     $html = "";
 
     $identificadores = selectDatos($conexion, "select categoria_id from categorias");
     $idValido = true;
-    foreach($identificadores as $fila){
+    foreach($identificadores as $fila){   
         if(in_array($id,$fila)){
+            //echo "Letra " . $id . " esta en el array.";
             $idValido = false;
         }
     }
-    if($idValido){
-        $html .= "<h1>El identificador esta ocupado.</h1>";
+    if(!$idValido){
+        $html .= "<h3>El identificador esta ocupado.</h3>";
         $id = "";
     }
         
