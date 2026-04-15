@@ -91,6 +91,17 @@ function insertCategoria($pdo,$campos){
     }
 }
 
+function updateCategoria($pdo,$datos){
+    try{
+     
+        $query = $pdo->prepare("update categorias set nombre = ?, descripcion = ? where categoria_id = ?");
+        $query->execute($datos);
+        return null;
+    }catch(PDOException $e){
+        echo $e->getMessage();
+    }
+}
+
 /**
  * Generador de tabla
  * 

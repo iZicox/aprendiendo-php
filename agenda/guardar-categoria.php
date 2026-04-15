@@ -6,11 +6,16 @@
     $descripcionCategoria = isset($_POST["descripcionCategoria"]) ? $_POST["descripcionCategoria"] : "";
     $html = "";
 
+    $options = "";
+    $categorias = selectCategorias($conexion);
+    foreach($categorias as $cat){
+        $options .= "<option value=\"".$cat["categoria_id"]."\">".$cat["nombre"]."</option>";
+    }
+
     $identificadores = selectDatos($conexion, "select categoria_id from categorias");
     $idValido = true;
     foreach($identificadores as $fila){   
         if(in_array($id,$fila)){
-            //echo "Letra " . $id . " esta en el array.";
             $idValido = false;
         }
     }
@@ -19,14 +24,26 @@
         $id = "";
     }
         
-    if(!empty($id) && !empty($nombreCategoria) && !empty($descripcionCategoria)){
-        insertCategoria($conexion,[$id,$nombreCategoria,$descripcionCategoria]);
-        $html .= "<h1>Categoria insertada</h1>";
+    if(!empty($nombreCategoria) && !empty($descripcionCategoria)){
+        if(empty($id)){
+            //insert
+            insertCategoria($conexion,[$id,$nombreCategoria,$descripcionCategoria]);
+            $html .= "<h1>Categoria insertada</h1>";
+        }else{
+            //update
+            updateCategoria($conexion,[$nombreCategoria,$descripcionCategoria,$id]);
+            $html .= "<h1>Categoria actualizada</h1>";
+        }
+
+
     } else{
         $html .= <<<EOF
         <form action="" method="post">
             <label for="">Identificador: </label>
-            <input type="text" name="id">
+            <select name="id" id="">
+                <option value="" selected>Ninguna (Crea)</option>
+                $options
+            </select>
             <br><br>
     
             <label for="">Nombre categoria: </label>
