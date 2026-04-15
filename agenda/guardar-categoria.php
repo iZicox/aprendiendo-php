@@ -13,16 +13,7 @@
     }
 
     $identificadores = selectDatos($conexion, "select categoria_id from categorias");
-    $idValido = true;
-    foreach($identificadores as $fila){   
-        if(in_array($id,$fila)){
-            $idValido = false;
-        }
-    }
-    if(!$idValido){
-        $html .= "<h3>El identificador esta ocupado.</h3>";
-        $id = "";
-    }
+
         
     if(!empty($nombreCategoria) && !empty($descripcionCategoria)){
         if(empty($id)){
