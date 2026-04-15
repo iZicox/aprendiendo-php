@@ -4,18 +4,25 @@
     $conexion = conectarPDO("localhost","3307","root","","agenda");
     $categorias = selectCategorias($conexion);
     $options = "";
-    foreach($categorias as $cat){
-        $options .= "<option value=\"".$cat["categoria_id"]."\">".$cat["nombre"]."</option>";
-    }
-    $tabla = "";
-    if(isset($_POST["categoria"]) && !empty($_POST["categoria"])){
-        $id = $_POST["categoria"];
-        $datos = selectPersonalizado($conexion,"select nombre, descripcion from categorias where categoria_id = ?",[$id]);
-        if(!empty($datos)){
+    if(empty($categorias)){
+        header("Location: guardar-categoria.php");
+        exit;
+    }else{
+        foreach($categorias as $cat){
+            $options .= "<option value=\"".$cat["categoria_id"]."\">".$cat["nombre"]."</option>";
+        }
+        $tabla = "";
+        if(isset($_POST["categoria"]) && !empty($_POST["categoria"])){
+            $id = $_POST["categoria"];
+            $datos = selectPersonalizado($conexion,"select nombre, descripcion from categorias where categoria_id = ?",[$id]);
             
-            $tabla = generarTabla(["nombre","descripcion"],$datos);
+            if(!empty($datos)){
+                
+                $tabla = generarTabla(["nombre","descripcion"],$datos);
+            }
         }
     }
+    
 
 ?>
 <!DOCTYPE html>
