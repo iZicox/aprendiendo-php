@@ -22,6 +22,26 @@ function selectCategorias($pdo){
     return $datos;
 }
 
+function selectContactosConId($pdo){
+    try{
+        $consulta = $pdo->prepare("select 
+                                        p.id as id
+                                        p.nombre as nombre, 
+                                        p.apellidos as apellidos,
+                                        p.telefono as telefono, 
+                                        c.nombre as categoria
+                                    from personas p 
+                                    left join categorias c 
+                                        on c.categoria_id = p.categoria_id
+                                    order by p.nombre");
+        $consulta->execute();
+        $datos = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+    } catch(Exception $e){
+        return $e->getMessage();
+    }
+    return $datos;
+}
 function selectContactos($pdo){
     try{
         $consulta = $pdo->prepare("select 
