@@ -19,7 +19,7 @@ insert categorias values(default,'Trabajo','Contactos del trabajo');
 insert categorias values(default,'Personal','Contactos como amigos u otros');
 
 INSERT INTO personas (nombre, apellidos, telefono, categoria_id) VALUES
-('Juan', 'Pérez López', '600123456', (SELECT categoria_id FROM categorias ORDER BY RAND() LIMIT 1)),
+('Juan', 'Pérez López', '600123456',        (SELECT categoria_id FROM categorias ORDER BY RAND() LIMIT 1)),
 ('María', 'García Ruiz', '600234567',       (SELECT categoria_id FROM categorias ORDER BY RAND() LIMIT 1)),
 ('Carlos', 'Martínez Soto', '600345678',    (SELECT categoria_id FROM categorias ORDER BY RAND() LIMIT 1)),
 ('Ana', 'Rodríguez Vega', '600456789',      (SELECT categoria_id FROM categorias ORDER BY RAND() LIMIT 1)),

@@ -25,10 +25,10 @@ function selectCategorias($pdo){
 function selectContactos($pdo){
     try{
         $consulta = $pdo->prepare("select 
-                                        p.nombre, 
-                                        p.telefono, 
-                                        c.nombre,
-                                        p.id
+                                        p.nombre as nombre, 
+                                        p.apellidos as apellidos,
+                                        p.telefono as telefono, 
+                                        c.nombre as categoria
                                     from personas p 
                                     left join categorias c 
                                         on c.categoria_id = p.categoria_id
