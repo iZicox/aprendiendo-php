@@ -38,9 +38,7 @@ if(isset($id) && is_numeric($id)){
     <title>Document</title>
 </head>
 <body>
-    <?= print_r($_POST) ?>
-    <hr>
-    <?= print_r($_GET) ?>
+
     <h1><?= isset($id) && is_numeric($id) ? "Contacto actualizado" : "Contacto creado" ?></h1>
     <p>
         <a href="index.php">Regresar</a>
