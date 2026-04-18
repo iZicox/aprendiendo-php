@@ -34,6 +34,9 @@
 </head>
 <body>
     <h1><?= $nuevo ? "Crear " : "Actualizar " ?>Contacto</h1>
+    <p>
+        <a href="index.php">Regresar</a>
+    </p>
     <form action="procesar-persona.php" method="post">
 
         <input type="hidden" name="id" value="<?= $nuevo ? "" : $datosPersona["id"] ?>">
