@@ -2,7 +2,7 @@
     require_once "varios.php";
    
     $conexion = conectarPDO("localhost","3307","root","","agenda");
-    $personas = selectContactos($conexion);
+    $personas = selectContactosId($conexion);
     $options = "";
     if(empty($personas)){
         header("Location: guardar-categoria.php");
@@ -14,11 +14,17 @@
         $tabla = "";
         if(isset($_POST["persona"]) && !empty($_POST["persona"])){
             $id = $_POST["persona"];
-            $datos = selectPersonalizado($conexion,"select nombre, apellidos, telefono from personas where id = ?",[$id]);
+            $datos = selectPersonalizado($conexion,"
+                                select 
+                                    p.nombre, p.apellidos, p.telefono, c.nombre as categoria 
+                                from personas p 
+                                left join categorias c on c.categoria_id = p.categoria_id 
+                                where p.id = ?"
+                                ,[$id]);
             
             if(!empty($datos)){
                 
-                $tabla = generarTabla(["nombre","apellidos","telefono"],$datos);
+                $tabla = generarTabla(["nombre","apellidos","telefono","categoria"],$datos);
             }
         }
     }
