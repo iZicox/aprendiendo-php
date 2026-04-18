@@ -5,7 +5,7 @@
     $personas = selectContactosId($conexion);
     $options = "";
     if(empty($personas)){
-        header("Location: guardar-categoria.php");
+        header("Location: guardar-persona.php");
         exit;
     }else{
         foreach($personas as $fila){

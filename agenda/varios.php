@@ -25,7 +25,7 @@ function selectCategorias($pdo){
 function selectContactosConId($pdo){
     try{
         $consulta = $pdo->prepare("select 
-                                        p.id as id
+                                        p.id as id,
                                         p.nombre as nombre, 
                                         p.apellidos as apellidos,
                                         p.telefono as telefono, 

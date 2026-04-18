@@ -97,7 +97,7 @@
     <title>Eliminar categoria</title>
 </head>
 <body>
-    <h1>Eliminar categorias</h1>
+    <h1>Eliminar categoria</h1>
     <p>
         <a href="index.php">Regresar</a>
     </p>
