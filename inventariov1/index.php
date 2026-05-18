@@ -59,6 +59,7 @@ if(isset($_SESSION["id"])){
             $tabla .= "</tr>";
         }
         $tabla .= "</table>";
+        rand
     }
     echo "bien";
 }
